@@ -32,7 +32,6 @@ methods.initAll = function () {
   var client, closeDb;
   return connection.queryAsync('CREATE DATABASE IF NOT EXISTS nbe')
   .then(function(result) {
-    connString += 'nbe';
     return methods.initTables();
   });
 };
@@ -58,11 +57,9 @@ methods.init = function() {
   return methods.initAll();
 };
 
-
-// FIXME: only works with initAll
 methods.destroy = function () {
   var client, closeDb;
-  return pg.connectAsync(connString + 'nbe').spread(function(dbClient, close) {
+  return pg.connectAsync(connString).spread(function(dbClient, close) {
     client = dbClient;
     closeDb = close;
     return connection.queryAsync('DROP DATABASE nbe');
